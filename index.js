@@ -11,6 +11,10 @@ app.get("/", (req, res)=> {
     res.send("Local Server is runnig...");
 })
 
+app.send('/blogs', (req, res)=> {
+    res.send("Hello Users")
+})
+
 app.listen(port, ()=> {
     console.log('My port is running', port);
 })
