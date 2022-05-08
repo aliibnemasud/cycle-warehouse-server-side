@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get("/", (req, res) => {
-    res.send("Local Server is runnig...");
+    res.send("Local Server is runnig... For warehouse management");
 })
 
 app.get("/services", (req, res) => {
