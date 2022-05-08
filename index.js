@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
@@ -16,10 +16,6 @@ app.get("/services", (req, res) => {
     res.send("Services...");
 })
 
-
-
-
-
 app.get('/blogs', (req, res) => {
     res.send("Blog page")
 })
@@ -30,7 +26,9 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 console.log(uri);
-// load data
+
+
+// load all data
 async function run() {
     try {
         await client.connect();
@@ -40,8 +38,15 @@ async function run() {
             const query = {};
             const cursor = productCollection.find(query);
             const products = await cursor.toArray();
-
             res.send(products);
+        });
+
+        // Find product by id
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.findOne(query);
+            res.send(result);
         });
     }
     finally {
