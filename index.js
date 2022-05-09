@@ -38,6 +38,14 @@ async function run() {
             res.send(products);
         });
 
+        // Added product
+        app.post('/product', async (req, res)=> {
+            const newProduct = req.body;
+            console.log("New user", newProduct);
+            const result = await productCollection.insertOne(newProduct);
+            res.send(result);
+        })
+
         // Blogs 
         app.get('/blogs', async (req, res) => {
             const query = {};
