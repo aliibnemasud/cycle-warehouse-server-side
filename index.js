@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 
+
 require('dotenv').config()
 app.use(cors())
 app.use(express.json())
@@ -43,6 +44,14 @@ async function run() {
             const newProduct = req.body;
             console.log("New user", newProduct);
             const result = await productCollection.insertOne(newProduct);
+            res.send(result);
+        })
+
+        // Delete product
+        app.delete('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await productCollection.deleteOne(query);
             res.send(result);
         })
 
